@@ -2,18 +2,16 @@ package com.zakgof.webp4j;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.io.IOException;
 
 public class Webp4j {
 	
 	/**
-	 * Encode a BufferedImage into wepb format
+	 * Encodes a BufferedImage into wepb format.
 	 * @param image source image
 	 * @param quality quality factor, 0..100
 	 * @return output array
-	 * @throws IOException
 	 */
-	public static byte[] encode(BufferedImage image, float quality) throws IOException {
+	public static byte[] encode(BufferedImage image, float quality) {
 		int[] size = new int[1];
 		if (image.getType() == BufferedImage.TYPE_3BYTE_BGR) {
 			byte[] bytes = ((DataBufferByte)image.getRaster().getDataBuffer()).getData();
@@ -32,6 +30,11 @@ public class Webp4j {
 		}
 	}
 	
+	/**
+	 * Decodes BufferedImage from wepb format
+	 * @param webp input webp bytes
+	 * @return BufferedImage
+	 */
 	public static BufferedImage decode(byte[] webp) {
 		int[] width = new int[1];
 		int[] height = new int[1];
