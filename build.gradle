@@ -1,6 +1,9 @@
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'signing'
+plugins {
+    id "java"
+    id "maven"
+    id "maven-publish"
+    id "com.jfrog.bintray" version "1.8.4"
+}
 
 compileJava.options.encoding = 'UTF-8'
 
@@ -8,8 +11,13 @@ group = 'com.github.zakgof'
 archivesBaseName = 'webp4j'
 version = '0.0.1'
 
+ext {
+   descr = 'Simple Java lib for encoding/decoding WebP image format'
+}
+
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -17,56 +25,23 @@ dependencies {
     testCompile 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
 }
 
-ext {
-    ossrhUsername = ossrhUser
-    ossrhPassword = ossrhPass
-}
-
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-}
-
-task sourcesJar(type: Jar) {
+task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
-    from sourceSets.main.allSource
+    from sourceSets.main.java
 }
 
-task testJar(type: Jar) {
-    classifier = 'tests'
-    from sourceSets.test.output
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
 }
 
 artifacts {
-    archives javadocJar, sourcesJar, testJar
+    archives sourcesJar
+    archives javadocJar
 }
 
-signing {
-    sign configurations.archives
-}
-
-uploadArchives {
-  repositories {
-    mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      pom.project {
-        packaging 'jar'
-        artifactId 'webp4j'
-        url 'https://github.com/zakgof/webp4j'
-        
-        name 'webp4j'
-        description 'Simple Java webp image format encoder and decoder'
-
-        scm {
+def pomConfig = {
+     scm {
           connection 'scm:git:https://github.com/zakgof/webp4j.git'
           developerConnection 'scm:git:https://github.com/zakgof/webp4j.git'
           url 'https://github.com/zakgof/webp4j'
@@ -86,9 +61,43 @@ uploadArchives {
             email 'zakgof@gmail.com'
           }
         }
-      }
-    }
-  }
+}
+
+publishing {
+	publications {
+		MyPublication(MavenPublication) {
+			from components.java
+			artifact sourcesJar
+			artifact javadocJar
+  		    groupId group  		    
+            artifactId archivesBaseName
+            version project.version
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', project.descr)
+                root.appendNode('name', project.archivesBaseName)
+                root.appendNode('url', 'https://github.com/zakgof/webp4j.git')
+                root.children().last() + pomConfig
+            }
+		}
+	}
 }
 
 
+bintray {
+    user = 'zakgof'
+    key = project.hasProperty('bintrayKey') ? bintrayKey : System.getenv('BINTRAY_KEY')
+    publications = ['MyPublication']
+    configurations = ['archives']
+    override = true
+    pkg {
+        repo = 'maven'
+        name = archivesBaseName
+        userOrg = 'zakgof'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/zakgof/webp4j.git'
+        version {
+            name = project.version
+        }
+    }
+}
