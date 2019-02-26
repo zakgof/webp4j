@@ -13,7 +13,11 @@ repositories {
 }
 
 dependencies {
-    compile 'org.scijava:native-lib-loader:2.3.2'
-    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+    compile 'org.scijava:native-lib-loader:2.3.2'    
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.4.0')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.4.0')
 }
 
+test {
+    useJUnitPlatform()
+}
