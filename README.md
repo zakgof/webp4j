@@ -32,5 +32,5 @@ float quality = 80f;
 byte[] bytes = Webp4j.encode(bi, quality);
 
 // Decode
-BufferedImage restored = Webp4j.decode(bi);
+BufferedImage restored = Webp4j.decode(bytes);
 ```
