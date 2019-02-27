@@ -1,6 +1,7 @@
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'signing'
+plugins {
+    id 'com.adarshr.test-logger' version '1.6.0'
+    id 'java'
+}
 
 compileJava.options.encoding = 'UTF-8'
 
