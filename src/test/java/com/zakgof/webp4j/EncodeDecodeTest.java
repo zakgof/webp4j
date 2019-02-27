@@ -11,41 +11,41 @@ import org.junit.jupiter.api.Test;
 public class EncodeDecodeTest {
 	
 	@Test
-	void testIntRGB() throws IOException {
+	public void testIntRGB() throws IOException {
 	    test(BufferedImage.TYPE_INT_RGB);
 	}
 	
 	@Test
-	void testIntBGR() throws IOException {
+	public void testIntBGR() throws IOException {
 	    test(BufferedImage.TYPE_INT_BGR);
 	}
 	
 	@Test
-	void test3BGR() throws IOException {
+	public void test3BGR() throws IOException {
 	    test(BufferedImage.TYPE_3BYTE_BGR);
 	}
 	
 	@Test
 	@Disabled
-	void test4ABGR() throws IOException {
+	public void test4ABGR() throws IOException {
 	    test(BufferedImage.TYPE_4BYTE_ABGR);
 	}
 	
 	@Test
 	@Disabled
-	void test4ABGRPre() throws IOException {
+	public void test4ABGRPre() throws IOException {
 	    test(BufferedImage.TYPE_4BYTE_ABGR_PRE);
 	}
 	
 	@Test
 	@Disabled
-	void testUShort555() throws IOException {
+	public void testUShort555() throws IOException {
 	    test(BufferedImage.TYPE_USHORT_555_RGB);
 	}
 	
 	@Test
 	@Disabled
-	void testUShort565() throws IOException {
+	public void testUShort565() throws IOException {
 	    test(BufferedImage.TYPE_USHORT_565_RGB);
 	}
 

@@ -3,26 +3,27 @@ plugins {
     id "maven"
     id "maven-publish"
     id "com.jfrog.bintray" version "1.8.4"
+    id 'com.adarshr.test-logger' version '1.6.0'
 }
 
 compileJava.options.encoding = 'UTF-8'
 
 group = 'com.github.zakgof'
 archivesBaseName = 'webp4j'
-version = '0.0.1'
+version = '0.0.2'
 
 ext {
    descr = 'Simple Java lib for encoding/decoding WebP image format'
 }
 
 repositories {
-    mavenCentral()
     jcenter()
 }
 
 dependencies {
-    compile 'org.scijava:native-lib-loader:2.3.2'
-    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+    compile 'org.scijava:native-lib-loader:2.3.2'    
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.4.0')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.4.0')
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -83,7 +84,6 @@ publishing {
 	}
 }
 
-
 bintray {
     user = 'zakgof'
     key = project.hasProperty('bintrayKey') ? bintrayKey : System.getenv('BINTRAY_KEY')
@@ -100,4 +100,8 @@ bintray {
             name = project.version
         }
     }
+}
+
+test {
+    useJUnitPlatform()
 }
