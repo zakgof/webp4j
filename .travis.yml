@@ -5,4 +5,4 @@ branches:
   only:
    - release
 script:
-  - gradle bintrayUpload -PbintrayKey=${BINTRAY_KEY}
+  - ./gradlew bintrayUpload -PbintrayKey=${BINTRAY_KEY}
