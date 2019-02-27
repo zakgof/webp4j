@@ -10,7 +10,8 @@ Supported platforms:
 - Linux 32/64 bit
 - Windows 32/64 bit
 
-### Webp4j on bintray
+### Webp4j is on Bintray
+![Travis CI](https://travis-ci.org/zakgof/webp4j.svg?branch=release)
 ![https://bintray.com/zakgof/maven/webp4j](https://api.bintray.com/packages/zakgof/maven/webp4j/images/download.svg)
 
 ### Gradle
@@ -20,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.zakgof:webp4j:0.0.1'
+    compile 'com.github.zakgof:webp4j:0.0.2'
 }
 ```
 ### Usage
